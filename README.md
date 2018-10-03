@@ -1,1 +1,1 @@
-# njsb-admin
+# njsb
