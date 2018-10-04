@@ -12,7 +12,7 @@
     "bs": "browser-sync start --server dist --files dist",
     "watch": "npm-run-all build:dev --parallel --continue-on-error watch:*",
     "startDev": "npm-run-all build:dev --parallel --continue-on-error watch:* nodemon bs",
-    "start":"node src/server/index.js",
+    "start": "node src/server/index.js",
     "lint": "eslint --ext .js,.lsc src"
   },
   "devDependencies": {
@@ -37,9 +37,11 @@
     "stylus": "^0.54.5"
   },
   "dependencies": {
+    "@google-cloud/datastore": "^2.0.0",
     "@lightscript/babel-preset": "^4.0.0-alpha.18",
     "@lightscript/eslint-plugin": "^4.0.0-alpha.18",
     "@lightscript/runtime": "^0.1.1",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "rollup": "^0.66.3"
   }
