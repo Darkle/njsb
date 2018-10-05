@@ -1,60 +1,16 @@
-require('dotenv').config({
-  path: require('path').resolve(__dirname, '..', '..', 'config', '.env')
-})
-import Datastore from '@google-cloud/datastore'
+import path from 'path'
 
-express = require('express')
+require('dotenv').config({path: path.resolve(__dirname, '..', '..', 'config', '.env')})
 
-app = express()
+import express from 'express'
 
-app.get('/', (req, res) => {
-  res.status(200).send('Hello, worldsssss!').end()
-})
+import { logger } from './logging/logger.lsc'
+import { expressInit } from './expressApp.lsc'
 
-// Start the server
-PORT = process.env.PORT || 8086
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`)
-  console.log('Press Ctrl+C to quit.')
-})
-datastore = new Datastore({
-  projectId: process.env.PROJECT_ID
-})
+expressApp = express()
 
-bookKey = datastore.key('Book')
-testKey = datastore.key(['Company', 'Google'])
+expressInit(expressApp)
 
-// Prepares the new entity
-task = {
-  // key: bookKey,
-  key: testKey,
-  data: {
-    description: 'Foo',
-  },
-}
+logger.debug('test neee22222223332eew')
 
-// Saves the entity
-// datastore
-//   .save(task)
-//   .then(() => {
-//     console.log(`Saved ${task.key.name}: ${task.data.description}`)
-//   })
-//   .catch(err => {
-//     console.error('ERROR:', err)
-//   })
-// getBookKey = datastore.key(['Book', '5707702298738688'])
-// getBookKey = datastore.key(['Book', '5707702298738688'])
-// datastore.get(testKey)
-//   .then((entities) => {
-//     console.log(entities[0][datastore.KEY])
-//   })
-//   .catch(err => {
-//     console.error('ERROR:', err)
-//   })
-datastore.runQuery(datastore.createQuery('Book'), function(err, entities) {
-  if err: console.error(err)
-  // entities = An array of records.
 
-  // Access the Key object for an entity.
-  console.log(entities[0][datastore.KEY])
-})

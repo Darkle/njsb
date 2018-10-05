@@ -1,0 +1,30 @@
+
+import Maybe from 'folktale/maybe'
+import _ from 'lodash'
+
+noop = () -> return   // eslint-disable-line fp/no-nil
+identity(param) -> param
+pipe(...fns) -> param -> fns.reduce((result, fn) -> fn(result), param)    // eslint-disable-line fp/no-rest-parameters
+compose(...fns) -> value -> fns.reduceRight((acc, current) -> current(acc), value)    // eslint-disable-line fp/no-rest-parameters
+curry(f) -> (...a) -> (...b) -> f(...a, ...b)    // eslint-disable-line fp/no-rest-parameters
+curryRight(f) -> (...a) -> (...b) -> f(...b, ...a)    // eslint-disable-line fp/no-rest-parameters
+range(start, end) -> Array.from({length: (end - start)}, (v, k) -> k + start)
+rangeIncEnd(start, end) -> Array.from({length: ((end - start) + 1)}, (v, k) -> k + start) //includes end number - useful if you actually want the numbers in the range instead of just the index range
+
+//If _.get(obj, path) returns null or undefined then Maybe.fromNullable returns Maybe.Nothing(), otherwise it returns Maybe.Just(value)
+// Maybe.fromNullable(_.get(obj, path))
+
+safeFind<T>(collection:T=[], predicate:T):Maybe ->
+  Maybe.fromNullable(_.find(collection, predicate))
+
+export{
+  noop,
+  identity,
+  pipe,
+  compose,
+  curry,
+  curryRight,
+  range,
+  rangeIncEnd,
+  safeFind,
+}

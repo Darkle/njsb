@@ -1,0 +1,11 @@
+import express from 'express'
+
+adminRouter = express.Router()
+
+adminRouter.get('/', function(req, res, next) {
+  res.render('index', { title: 'admin page' })
+})
+
+export {
+  adminRouter
+}

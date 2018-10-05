@@ -1,0 +1,11 @@
+import express from 'express'
+
+emailExampleRouter = express.Router()
+
+emailExampleRouter.get('/', function(req, res, next) {
+  res.render('index', { title: 'email example page' })
+})
+
+export {
+  emailExampleRouter
+}

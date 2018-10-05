@@ -1,0 +1,19 @@
+import Rollbar from 'rollbar'
+import _ from 'lodash'
+
+let rollbar = {}    // eslint-disable-line fp/no-let, fp/no-nil
+
+logger = new Proxy(rollbar, {
+  get: (target, property, receiver) ->
+    if _.isEmpty(rollbar):
+      now rollbar = new Rollbar({    // eslint-disable-line fp/no-mutation
+        accessToken: process.env.ROLLBAR_NODE_TOKEN,
+        captureUncaught: true,
+        captureUnhandledRejections: true
+      })
+    rollbar[property]
+})
+
+export{
+  logger,
+}

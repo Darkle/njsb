@@ -24,9 +24,6 @@ module.exports = {
     '@lightscript/no-implicit-imports': 'error',
     'accessor-pairs': 'error',
     'block-scoped-var': 'error',
-    'brace-style': [
-      'warn', 'stroustrup'
-    ],
     'callback-return': 'error',
     'comma-style': [
       'error',
