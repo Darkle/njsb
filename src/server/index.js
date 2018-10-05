@@ -171,8 +171,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! express */ "express");
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _logging_logger_lsc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./logging/logger.lsc */ "./src/server/logging/logger.lsc");
-/* harmony import */ var _expressApp_lsc__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./expressApp.lsc */ "./src/server/expressApp.lsc");
+/* harmony import */ var _expressApp_lsc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./expressApp.lsc */ "./src/server/expressApp.lsc");
 
 
 __webpack_require__(/*! dotenv */ "dotenv").config({
@@ -181,10 +180,8 @@ __webpack_require__(/*! dotenv */ "dotenv").config({
 
 
 
-
 const expressApp = express__WEBPACK_IMPORTED_MODULE_1___default()();
-Object(_expressApp_lsc__WEBPACK_IMPORTED_MODULE_3__["expressInit"])(expressApp);
-_logging_logger_lsc__WEBPACK_IMPORTED_MODULE_2__["logger"].debug('test neee22222223332eew');
+Object(_expressApp_lsc__WEBPACK_IMPORTED_MODULE_2__["expressInit"])(expressApp);
 
 /***/ }),
 
@@ -207,7 +204,8 @@ __webpack_require__.r(__webpack_exports__);
 let rollbar = {}; // eslint-disable-line fp/no-let, fp/no-nil
 
 const logger = new Proxy(rollbar, {
-  get: function (target, property, receiver) {
+  // eslint-disable-line fp/no-proxy
+  get: function (target, property) {
     if (lodash__WEBPACK_IMPORTED_MODULE_1___default.a.isEmpty(rollbar)) {
       rollbar = new rollbar__WEBPACK_IMPORTED_MODULE_0___default.a({
         // eslint-disable-line fp/no-mutation

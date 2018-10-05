@@ -3,8 +3,8 @@ import _ from 'lodash'
 
 let rollbar = {}    // eslint-disable-line fp/no-let, fp/no-nil
 
-logger = new Proxy(rollbar, {
-  get: (target, property, receiver) ->
+logger = new Proxy(rollbar, {    // eslint-disable-line fp/no-proxy
+  get: (target, property) ->
     if _.isEmpty(rollbar):
       now rollbar = new Rollbar({    // eslint-disable-line fp/no-mutation
         accessToken: process.env.ROLLBAR_NODE_TOKEN,

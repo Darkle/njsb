@@ -4,13 +4,11 @@ require('dotenv').config({path: path.resolve(__dirname, '..', '..', 'config', '.
 
 import express from 'express'
 
-import { logger } from './logging/logger.lsc'
 import { expressInit } from './expressApp.lsc'
 
 expressApp = express()
 
 expressInit(expressApp)
 
-logger.debug('test neee22222223332eew')
 
 
