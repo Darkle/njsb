@@ -102,11 +102,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var morgan__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! morgan */ "morgan");
 /* harmony import */ var morgan__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(morgan__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _routes_indexRouter_lsc__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./routes/indexRouter.lsc */ "./src/server/routes/indexRouter.lsc");
-/* harmony import */ var _routes_emailExample_lsc__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./routes/emailExample.lsc */ "./src/server/routes/emailExample.lsc");
-/* harmony import */ var _routes_admin_lsc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes/admin.lsc */ "./src/server/routes/admin.lsc");
-/* harmony import */ var _utils_lsc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils.lsc */ "./src/server/utils.lsc");
-/* harmony import */ var _logging_logger_lsc__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./logging/logger.lsc */ "./src/server/logging/logger.lsc");
+/* harmony import */ var compression__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! compression */ "compression");
+/* harmony import */ var compression__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(compression__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _routes_indexRouter_lsc__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./routes/indexRouter.lsc */ "./src/server/routes/indexRouter.lsc");
+/* harmony import */ var _routes_emailExample_lsc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes/emailExample.lsc */ "./src/server/routes/emailExample.lsc");
+/* harmony import */ var _routes_admin_lsc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./routes/admin.lsc */ "./src/server/routes/admin.lsc");
+/* harmony import */ var _routes_login_lsc__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./routes/login.lsc */ "./src/server/routes/login.lsc");
+/* harmony import */ var _utils_lsc__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils.lsc */ "./src/server/utils.lsc");
+/* harmony import */ var _logging_logger_lsc__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./logging/logger.lsc */ "./src/server/logging/logger.lsc");
+
+
 
 
 
@@ -120,7 +125,8 @@ const PORT = process.env.PORT || 8086;
 function expressInit(expressApp) {
   expressApp.set('views', path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, 'views'));
   expressApp.set('view engine', 'pug');
-  expressApp.use(_logging_logger_lsc__WEBPACK_IMPORTED_MODULE_7__["logger"].errorHandler());
+  expressApp.use(compression__WEBPACK_IMPORTED_MODULE_3___default()());
+  expressApp.use(_logging_logger_lsc__WEBPACK_IMPORTED_MODULE_9__["logger"].errorHandler());
   expressApp.use( true ? morgan__WEBPACK_IMPORTED_MODULE_2___default()('dev') : undefined);
   expressApp.use(express__WEBPACK_IMPORTED_MODULE_1___default.a.json());
   expressApp.use(express__WEBPACK_IMPORTED_MODULE_1___default.a.urlencoded({
@@ -128,25 +134,23 @@ function expressInit(expressApp) {
   })); // expressApp.use(cookieParser())
 
   expressApp.use(express__WEBPACK_IMPORTED_MODULE_1___default.a.static(path__WEBPACK_IMPORTED_MODULE_0___default.a.join(__dirname, 'public')));
-  expressApp.use('/', _routes_indexRouter_lsc__WEBPACK_IMPORTED_MODULE_3__["indexRouter"]);
-  expressApp.use('/example', _routes_emailExample_lsc__WEBPACK_IMPORTED_MODULE_4__["emailExampleRouter"]);
-  expressApp.use('/admin', _routes_admin_lsc__WEBPACK_IMPORTED_MODULE_5__["adminRouter"]); // catch 404
+  expressApp.use('/', _routes_indexRouter_lsc__WEBPACK_IMPORTED_MODULE_4__["indexRouter"]);
+  expressApp.use('/example', _routes_emailExample_lsc__WEBPACK_IMPORTED_MODULE_5__["emailExampleRouter"]);
+  expressApp.use('/admin', _routes_admin_lsc__WEBPACK_IMPORTED_MODULE_6__["adminRouter"]);
+  expressApp.use('/login', _routes_login_lsc__WEBPACK_IMPORTED_MODULE_7__["loginRouter"]);
+  if (true) __webpack_require__(/*! express-debug */ "express-debug")(expressApp); // catch 404
 
   expressApp.use(function (req, res) {
     res.status(404);
     return res.render('404');
   }); // error handler
 
-  expressApp.use(function (err, req, res, next) {
-    // eslint-disable-line no-unused-vars
-    // set locals, only providing error in development
-    res.locals.message = err.message; // eslint-disable-line fp/no-mutation
-
-    res.locals.error =  true ? err : undefined; // eslint-disable-line fp/no-mutation
-    // render the error page
-
+  expressApp.use(function (err, req, res) {
     res.status(err.status || 500);
-    return res.render('error');
+    return res.render('error', {
+      error:  true ? err : undefined,
+      message:  true ? err.message : undefined
+    });
   });
   return expressApp.listen(PORT, function () {
     console.log(`App listening on port ${PORT}`);
@@ -167,21 +171,17 @@ function expressInit(expressApp) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "path");
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! express */ "express");
-/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _expressApp_lsc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./expressApp.lsc */ "./src/server/expressApp.lsc");
-
-
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _expressApp_lsc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./expressApp.lsc */ "./src/server/expressApp.lsc");
 __webpack_require__(/*! dotenv */ "dotenv").config({
-  path: path__WEBPACK_IMPORTED_MODULE_0___default.a.resolve(__dirname, '..', '..', 'config', '.env')
+  path: __webpack_require__(/*! path */ "path").resolve(__dirname, '..', '..', 'config', '.env')
 });
 
 
 
-const expressApp = express__WEBPACK_IMPORTED_MODULE_1___default()();
-Object(_expressApp_lsc__WEBPACK_IMPORTED_MODULE_2__["expressInit"])(expressApp);
+const expressApp = express__WEBPACK_IMPORTED_MODULE_0___default()();
+Object(_expressApp_lsc__WEBPACK_IMPORTED_MODULE_1__["expressInit"])(expressApp);
 
 /***/ }),
 
@@ -195,29 +195,44 @@ Object(_expressApp_lsc__WEBPACK_IMPORTED_MODULE_2__["expressInit"])(expressApp);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logger", function() { return logger; });
-/* harmony import */ var rollbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rollbar */ "rollbar");
-/* harmony import */ var rollbar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rollbar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _lightscript_runtime_hasProps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @lightscript/runtime/hasProps */ "@lightscript/runtime/hasProps");
+/* harmony import */ var _lightscript_runtime_hasProps__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_lightscript_runtime_hasProps__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var rollbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rollbar */ "rollbar");
+/* harmony import */ var rollbar__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(rollbar__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 
+
+
+
+const hasProps = __webpack_require__(/*! @lightscript/runtime/hasProps */ "@lightscript/runtime/hasProps");
 
 let rollbar = {}; // eslint-disable-line fp/no-let, fp/no-nil
 
 const logger = new Proxy(rollbar, {
   // eslint-disable-line fp/no-proxy
   get: function (target, property) {
-    if (lodash__WEBPACK_IMPORTED_MODULE_1___default.a.isEmpty(rollbar)) {
-      rollbar = new rollbar__WEBPACK_IMPORTED_MODULE_0___default.a({
+    if (lodash__WEBPACK_IMPORTED_MODULE_2___default.a.isEmpty(rollbar)) {
+      rollbar = new rollbar__WEBPACK_IMPORTED_MODULE_1___default.a({
         // eslint-disable-line fp/no-mutation
         accessToken: process.env.ROLLBAR_NODE_TOKEN,
         captureUncaught: true,
         captureUnhandledRejections: true
       });
+      return rollbar[property];
+    } else {
+      return rollbar[property];
     }
-
-    return rollbar[property];
   }
 });
+
+function f(x) {
+  if (_lightscript_runtime_hasProps__WEBPACK_IMPORTED_MODULE_0___default()(x, "y")) {
+    const y = x.y;
+    return y;
+  }
+}
+
 
 
 /***/ }),
@@ -236,10 +251,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
 
 const adminRouter = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
-adminRouter.get('/', function (req, res, next) {
-  return res.render('index', {
-    title: 'admin page'
-  });
+adminRouter.get('/', function (req, res) {
+  //@TODO - if not logged in, redirect to login page
+  return res.render('admin');
 });
 
 
@@ -259,10 +273,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
 
 const emailExampleRouter = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
-emailExampleRouter.get('/', function (req, res, next) {
-  return res.render('index', {
-    title: 'email example page'
-  });
+emailExampleRouter.get('/', function (req, res) {
+  return res.render('emailExample');
 });
 
 
@@ -282,10 +294,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
 
 const indexRouter = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
-indexRouter.get('/', function (req, res, next) {
-  return res.render('index', {
-    title: 'Index page'
-  });
+indexRouter.get('/', function (req, res) {
+  return res.render('index');
+});
+
+
+/***/ }),
+
+/***/ "./src/server/routes/login.lsc":
+/*!*************************************!*\
+  !*** ./src/server/routes/login.lsc ***!
+  \*************************************/
+/*! exports provided: loginRouter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginRouter", function() { return loginRouter; });
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var timeproxy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! timeproxy */ "timeproxy");
+/* harmony import */ var timeproxy__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(timeproxy__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var express_rate_limit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! express-rate-limit */ "express-rate-limit");
+/* harmony import */ var express_rate_limit__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(express_rate_limit__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const loginLimiter = express_rate_limit__WEBPACK_IMPORTED_MODULE_2___default()({
+  windowMs: timeproxy__WEBPACK_IMPORTED_MODULE_1___default.a.ONE_MINUTE,
+  max: 5
+});
+const loginRouter = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
+loginRouter.get('/', loginLimiter, function (req, res) {
+  return res.render('login');
+});
+loginRouter.post('/', loginLimiter, function (req, res) {
+  // redirect to admin page if login successfull
+  // @TODO do I need to prepend the redirect with req.baseUrl here?
+  return res.redirect('/admin');
 });
 
 
@@ -388,6 +434,28 @@ function safeFind(collection = [], predicate) {
 
 /***/ }),
 
+/***/ "@lightscript/runtime/hasProps":
+/*!************************************************!*\
+  !*** external "@lightscript/runtime/hasProps" ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@lightscript/runtime/hasProps");
+
+/***/ }),
+
+/***/ "compression":
+/*!******************************!*\
+  !*** external "compression" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("compression");
+
+/***/ }),
+
 /***/ "dotenv":
 /*!*************************!*\
   !*** external "dotenv" ***!
@@ -407,6 +475,28 @@ module.exports = require("dotenv");
 /***/ (function(module, exports) {
 
 module.exports = require("express");
+
+/***/ }),
+
+/***/ "express-debug":
+/*!********************************!*\
+  !*** external "express-debug" ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("express-debug");
+
+/***/ }),
+
+/***/ "express-rate-limit":
+/*!*************************************!*\
+  !*** external "express-rate-limit" ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("express-rate-limit");
 
 /***/ }),
 
@@ -462,6 +552,17 @@ module.exports = require("path");
 /***/ (function(module, exports) {
 
 module.exports = require("rollbar");
+
+/***/ }),
+
+/***/ "timeproxy":
+/*!****************************!*\
+  !*** external "timeproxy" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("timeproxy");
 
 /***/ })
 

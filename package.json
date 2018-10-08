@@ -9,11 +9,11 @@
     "build:dev": "cross-env NODE_ENV=development webpack --display minimal --config webpack.config.server.js && cross-env NODE_ENV=development webpack --display minimal --config webpack.config.web.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.server.js && cross-env NODE_ENV=production webpack --config webpack.config.web.js",
     "nodemon": "nodemon src/server/index.js",
-    "bs": "browser-sync start --no-open --proxy 'localhost:8086' --files src/server/public/js src/server/public/styles src/server/index.js",
+    "bs": "browser-sync start --no-open --proxy 'localhost:8086' --files src/server/views src/server/public/js src/server/public/styles src/server/index.js",
     "watch": "npm-run-all build:dev --parallel --continue-on-error watch:*",
     "startDev": "npm-run-all build:dev --parallel --continue-on-error watch:* nodemon bs",
     "start": "node src/server/index.js",
-    "lint": "eslint --ext .js,.lsc src"
+    "lint": "eslint --ext .lsc src"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -26,12 +26,14 @@
     "autoprefixer": "^9.1.5",
     "babel-loader": "^8.0.4",
     "browser-sync": "^2.24.7",
+    "choo-devtools": "^2.5.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "dotenv-webpack": "^1.5.7",
     "eslint": "^5.6.1",
     "eslint-plugin-fp": "^2.3.0",
     "eslint_d": "^7.1.1",
+    "express-debug": "^1.1.1",
     "less": "^3.8.1",
     "node-sass": "^4.9.3",
     "nodemon": "^1.18.4",
@@ -47,12 +49,16 @@
   "dependencies": {
     "@google-cloud/datastore": "^2.0.0",
     "@lightscript/runtime": "^0.1.1",
+    "choo": "^6.13.0",
+    "compression": "^1.7.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "express-rate-limit": "^3.2.0",
     "folktale": "^2.3.1",
     "lodash": "^4.17.11",
     "morgan": "^1.9.1",
     "pug": "^2.0.3",
-    "rollbar": "^2.4.7"
+    "rollbar": "^2.4.7",
+    "timeproxy": "^1.2.1"
   }
 }

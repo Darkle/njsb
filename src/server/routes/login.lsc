@@ -1,0 +1,23 @@
+import express from 'express'
+import tp from 'timeproxy'
+import rateLimit from 'express-rate-limit'
+
+loginLimiter = rateLimit({
+  windowMs: tp.ONE_MINUTE,
+  max: 5
+})
+loginRouter = express.Router()
+
+loginRouter.get('/', loginLimiter, (req, res) ->
+  res.render('login')
+)
+loginRouter.post('/', loginLimiter, (req, res) ->
+
+  // redirect to admin page if login successfull
+  // @TODO do I need to prepend the redirect with req.baseUrl here?
+  res.redirect('/admin')
+)
+
+export {
+  loginRouter
+}

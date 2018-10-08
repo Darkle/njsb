@@ -2,43 +2,46 @@ import path from 'path'
 
 import express from 'express'
 import httpLogger from 'morgan'
+import compression from 'compression'
 
 import { indexRouter } from './routes/indexRouter.lsc'
 import { emailExampleRouter } from './routes/emailExample.lsc'
 import { adminRouter } from './routes/admin.lsc'
+import { loginRouter } from './routes/login.lsc'
 import { noop } from './utils.lsc'
 import { logger } from './logging/logger.lsc'
 
 PORT = process.env.PORT || 8086
 
+
 expressInit(expressApp) ->
   expressApp.set('views', path.join(__dirname, 'views'))
   expressApp.set('view engine', 'pug')
+
+  expressApp.use(compression())
   expressApp.use(logger.errorHandler())
   expressApp.use(ISDEV ? httpLogger('dev') : noop)
   expressApp.use(express.json())
   expressApp.use(express.urlencoded({ extended: false }))
   // expressApp.use(cookieParser())
   expressApp.use(express.static(path.join(__dirname, 'public')))
-
   expressApp.use('/', indexRouter)
   expressApp.use('/example', emailExampleRouter)
   expressApp.use('/admin', adminRouter)
-
+  expressApp.use('/login', loginRouter)
+  if ISDEV: require('express-debug')(expressApp)
   // catch 404
   expressApp.use((req, res) ->
     res.status(404)
     res.render('404')
   )
-
   // error handler
-  expressApp.use((err, req, res, next) ->    // eslint-disable-line no-unused-vars
-    // set locals, only providing error in development
-    res.locals.message = err.message    // eslint-disable-line fp/no-mutation
-    res.locals.error = ISDEV ? err : {}   // eslint-disable-line fp/no-mutation
-    // render the error page
+  expressApp.use((err, req, res) ->
     res.status(err.status || 500)
-    res.render('error')
+    res.render('error', {
+      error: ISDEV ? err : {},
+      message: ISDEV ? err.message : ''
+    })
   )
 
   expressApp.listen(PORT, () ->

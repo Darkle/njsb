@@ -2,8 +2,9 @@ import express from 'express'
 
 adminRouter = express.Router()
 
-adminRouter.get('/', function(req, res, next) {
-  res.render('index', { title: 'admin page' })
+adminRouter.get('/', function(req, res) {
+  //@TODO - if not logged in, redirect to login page
+  res.render('admin')
 })
 
 export {

@@ -1,6 +1,4 @@
-import path from 'path'
-
-require('dotenv').config({path: path.resolve(__dirname, '..', '..', 'config', '.env')})
+require('dotenv').config({path: require('path').resolve(__dirname, '..', '..', 'config', '.env')})
 
 import express from 'express'
 

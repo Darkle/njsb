@@ -1,2 +1,7 @@
+import choo from 'choo'
+import chooDevtools from 'choo-devtools'
 
 console.log('Hello from index.lsc in the Browser!')
+app = choo()
+if ISDEV: app.use(chooDevtools())
+app.mount('body')

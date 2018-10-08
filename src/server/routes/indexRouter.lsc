@@ -2,8 +2,8 @@ import express from 'express'
 
 indexRouter = express.Router()
 
-indexRouter.get('/', function(req, res, next) {
-  res.render('index', { title: 'Index page' })
+indexRouter.get('/', function(req, res) {
+  res.render('index')
 })
 
 export {

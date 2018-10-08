@@ -1,19 +1,25 @@
 import Rollbar from 'rollbar'
 import _ from 'lodash'
+hasProps = require("@lightscript/runtime/hasProps");
 
 let rollbar = {}    // eslint-disable-line fp/no-let, fp/no-nil
 
 logger = new Proxy(rollbar, {    // eslint-disable-line fp/no-proxy
   get: (target, property) ->
-    if _.isEmpty(rollbar):
-      now rollbar = new Rollbar({    // eslint-disable-line fp/no-mutation
-        accessToken: process.env.ROLLBAR_NODE_TOKEN,
-        captureUncaught: true,
-        captureUnhandledRejections: true
-      })
-    rollbar[property]
+    match rollbar:
+      | ~_.isEmpty():
+        now rollbar = new Rollbar({    // eslint-disable-line fp/no-mutation
+          accessToken: process.env.ROLLBAR_NODE_TOKEN,
+          captureUncaught: true,
+          captureUnhandledRejections: true
+        })
+        rollbar[property]
+      | else:
+        rollbar[property]
 })
-
+f(x) ->
+  match x:
+    | with {y}:y
 export{
   logger,
 }
